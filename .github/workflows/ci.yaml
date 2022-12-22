@@ -9,10 +9,9 @@ on:
 jobs:
     build:
         runs-on: ubuntu-latest
-        strategy: { matrix: { php-version: ['8.1'] } }
+        strategy: { matrix: { php-version: ['8.2'] } }
         steps:
-            -   name: Setup PHP
-                uses: shivammathur/setup-php@v2
+            -   uses: shivammathur/setup-php@v2
                 env:
                     RDKAFKA_LIBS: librdkafka-dev
                 with:
@@ -38,8 +37,12 @@ jobs:
     phpstan:
         needs: build
         runs-on: ubuntu-latest
-        strategy: { matrix: { os: [ubuntu-latest], php-version: ['8.1'] } }
+        strategy: { matrix: { os: [ubuntu-latest], php-version: ['8.2'] } }
         steps:
+            -   uses: shivammathur/setup-php@v2
+                with:
+                    php-version: ${{ matrix.php-version }}
+
             -   uses: actions/checkout@v2
 
             -   name: Cache composer packages
@@ -50,15 +53,14 @@ jobs:
                     restore-keys: ${{ runner.os }}-${{ matrix.php-version }}-composer-
 
             -   name: Run static analyse
-                run: vendor/bin/phpstan analyse --no-progress
+                run: vendor/bin/phpstan analyse --no-progress --xdebug
 
     phpunit:
         needs: build
         runs-on: ubuntu-latest
-        strategy: { matrix: { php-version: ['8.1'] } }
+        strategy: { matrix: { php-version: ['8.2'] } }
         steps:
-            -   name: Setup PHP
-                uses: shivammathur/setup-php@v2
+            -   uses: shivammathur/setup-php@v2
                 env:
                     RDKAFKA_LIBS: librdkafka-dev
                 with:
