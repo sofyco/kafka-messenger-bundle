@@ -1,6 +1,6 @@
 FROM php:8.2-cli-alpine
 
-RUN apk add --no-cache build-base php8-dev librdkafka-dev && \
+RUN apk add --no-cache $PHPIZE_DEPS librdkafka-dev && \
     pecl -q install rdkafka && \
     docker-php-ext-enable rdkafka && \
     rm -rf /tmp/* /var/cache/apk/*

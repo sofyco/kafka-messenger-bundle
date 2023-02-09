@@ -7,9 +7,9 @@ use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\Exception\TransportException;
 use Symfony\Component\Messenger\Transport\Serialization\SerializerInterface;
 
-final class KafkaReceiver
+final readonly class KafkaReceiver
 {
-    public function __construct(private readonly array $options, private readonly SerializerInterface $serializer)
+    public function __construct(private array $options, private SerializerInterface $serializer)
     {
     }
 

@@ -5,9 +5,9 @@ namespace Sofyco\Bundle\KafkaMessengerBundle\Transport;
 use RdKafka\Message;
 use Symfony\Component\Messenger\Stamp\NonSendableStampInterface;
 
-final class KafkaReceivedStamp implements NonSendableStampInterface
+final readonly class KafkaReceivedStamp implements NonSendableStampInterface
 {
-    public function __construct(public readonly Message $message)
+    public function __construct(public Message $message)
     {
     }
 }

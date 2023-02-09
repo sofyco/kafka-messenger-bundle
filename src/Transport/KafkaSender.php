@@ -9,9 +9,9 @@ use Symfony\Component\Messenger\Exception\TransportException;
 use Symfony\Component\Messenger\Transport\Sender\SenderInterface;
 use Symfony\Component\Messenger\Transport\Serialization\SerializerInterface;
 
-final class KafkaSender implements SenderInterface
+final readonly class KafkaSender implements SenderInterface
 {
-    public function __construct(private readonly array $options, private readonly SerializerInterface $serializer)
+    public function __construct(private array $options, private SerializerInterface $serializer)
     {
     }
 
