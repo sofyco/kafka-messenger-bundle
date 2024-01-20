@@ -6,9 +6,12 @@ use Symfony\Component\Messenger\Transport\Serialization\SerializerInterface;
 use Symfony\Component\Messenger\Transport\TransportFactoryInterface;
 use Symfony\Component\Messenger\Transport\TransportInterface;
 
+/**
+ * @template-implements TransportFactoryInterface<TransportInterface>
+ */
 final class KafkaTransportFactory implements TransportFactoryInterface
 {
-    private const PROTOCOL = 'kafka://';
+    private const string PROTOCOL = 'kafka://';
 
     public function createTransport(string $dsn, array $options, SerializerInterface $serializer): TransportInterface
     {
