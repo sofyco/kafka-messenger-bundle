@@ -11,6 +11,18 @@ use Symfony\Component\Messenger\Transport\Serialization\SerializerInterface;
 
 final readonly class KafkaSender implements SenderInterface
 {
+    /**
+     * @param array{
+     *     topicName: string,
+     *     groupId: string,
+     *     consumer: array<string, bool|int|string>,
+     *     producer: array<string, bool|int|string>,
+     *     flushRetries: int,
+     *     flushTimeout: int,
+     *     receiveTimeout: int,
+     *     commitAsync: boolean
+     * } $options
+     */
     public function __construct(private array $options, private SerializerInterface $serializer)
     {
     }
@@ -35,11 +47,20 @@ final readonly class KafkaSender implements SenderInterface
     {
         static $producer = null;
 
-        return $producer ??= new Producer(new Configuration($this->options['producer']));
+        if (null === $producer) {
+            $producer = new Producer(new Configuration($this->options['producer']));
+        }
+
+        if (!$producer instanceof Producer) {
+            throw new \RuntimeException('Failed to create Kafka Producer instance.');
+        }
+
+        return $producer;
     }
 
     private function getTopic(string $name): ProducerTopic
     {
+        /** @var array<string, ProducerTopic> $topics */
         static $topics = [];
 
         return $topics[$name] ??= $this->getProducer()->newTopic($name);

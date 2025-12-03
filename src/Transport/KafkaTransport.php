@@ -12,10 +12,25 @@ final class KafkaTransport implements TransportInterface, QueueReceiverInterface
     private KafkaSender $sender;
     private KafkaReceiver $receiver;
 
+    /**
+     * @param array{
+     *     topicName: string,
+     *     groupId: string,
+     *     consumer: array<string, bool|int|string>,
+     *     producer: array<string, bool|int|string>,
+     *     flushRetries: int,
+     *     flushTimeout: int,
+     *     receiveTimeout: int,
+     *     commitAsync: boolean
+     * } $options
+     */
     public function __construct(private readonly array $options, private readonly SerializerInterface $serializer)
     {
     }
 
+    /**
+     * @return Envelope[]
+     */
     public function getFromQueues(array $queueNames): iterable
     {
         return $this->getReceiver()->get($queueNames);

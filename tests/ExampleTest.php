@@ -6,8 +6,15 @@ use PHPUnit\Framework\TestCase;
 
 final class ExampleTest extends TestCase
 {
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+
+        restore_exception_handler();
+    }
+
     public function testExample(): void
     {
-        self::assertSame(true, true);
+        self::assertSameSize([1], [2]);
     }
 }

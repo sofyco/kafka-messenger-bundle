@@ -9,10 +9,25 @@ use Symfony\Component\Messenger\Transport\Serialization\SerializerInterface;
 
 final readonly class KafkaReceiver
 {
+    /**
+     * @param array{
+     *     topicName: string,
+     *     groupId: string,
+     *     consumer: array<string, bool|int|string>,
+     *     producer: array<string, bool|int|string>,
+     *     flushRetries: int,
+     *     flushTimeout: int,
+     *     receiveTimeout: int,
+     *     commitAsync: boolean
+     * } $options
+     */
     public function __construct(private array $options, private SerializerInterface $serializer)
     {
     }
 
+    /**
+     * @return Envelope[]
+     */
     public function get(array $queues = ['events']): iterable
     {
         $message = $this->getConsumer($queues)->consume($this->options['receiveTimeout']);
@@ -67,6 +82,10 @@ final readonly class KafkaReceiver
         if (null === $consumer) {
             $consumer = new KafkaConsumer(new Configuration($this->options['consumer']));
             $consumer->subscribe($queues);
+        }
+
+        if (!$consumer instanceof KafkaConsumer) {
+            throw new \RuntimeException('Failed to create Kafka consumer.');
         }
 
         return $consumer;

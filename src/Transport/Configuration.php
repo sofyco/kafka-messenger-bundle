@@ -4,6 +4,9 @@ namespace Sofyco\Bundle\KafkaMessengerBundle\Transport;
 
 final class Configuration extends \RdKafka\Conf
 {
+    /**
+     * @param array<string, string|int|boolean> $options
+     */
     public function __construct(array $options)
     {
         parent::__construct();

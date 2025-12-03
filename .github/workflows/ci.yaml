@@ -9,7 +9,7 @@ on:
 jobs:
     build:
         runs-on: ubuntu-latest
-        strategy: { matrix: { php-version: ['8.3'] } }
+        strategy: { matrix: { php-version: ['8.5'] } }
         steps:
             -   uses: shivammathur/setup-php@v2
                 env:
@@ -18,13 +18,13 @@ jobs:
                     php-version: ${{ matrix.php-version }}
                     extensions: rdkafka-arnaud-lb/php-rdkafka@6.0.3
 
-            -   uses: actions/checkout@v2
+            -   uses: actions/checkout@v4
 
             -   name: Validate composer.json and composer.lock
                 run: composer validate
 
             -   name: Cache composer packages
-                uses: actions/cache@v2
+                uses: actions/cache@v4
                 with:
                     path: vendor
                     key: ${{ runner.os }}-${{ matrix.php-version }}-composer-${{ hashFiles('composer.json') }}
@@ -37,16 +37,16 @@ jobs:
     phpstan:
         needs: build
         runs-on: ubuntu-latest
-        strategy: { matrix: { os: [ubuntu-latest], php-version: ['8.3'] } }
+        strategy: { matrix: { os: [ubuntu-latest], php-version: ['8.5'] } }
         steps:
             -   uses: shivammathur/setup-php@v2
                 with:
                     php-version: ${{ matrix.php-version }}
 
-            -   uses: actions/checkout@v2
+            -   uses: actions/checkout@v4
 
             -   name: Cache composer packages
-                uses: actions/cache@v2
+                uses: actions/cache@v4
                 with:
                     path: vendor
                     key: ${{ runner.os }}-${{ matrix.php-version }}-composer-${{ hashFiles('composer.json') }}
@@ -58,7 +58,7 @@ jobs:
     phpunit:
         needs: build
         runs-on: ubuntu-latest
-        strategy: { matrix: { php-version: ['8.3'] } }
+        strategy: { matrix: { php-version: ['8.5'] } }
         steps:
             -   uses: shivammathur/setup-php@v2
                 env:
@@ -68,10 +68,10 @@ jobs:
                     coverage: coverage
                     extensions: rdkafka-arnaud-lb/php-rdkafka@6.0.3
 
-            -   uses: actions/checkout@v2
+            -   uses: actions/checkout@v4
 
             -   name: Cache composer packages
-                uses: actions/cache@v2
+                uses: actions/cache@v4
                 with:
                     path: vendor
                     key: ${{ runner.os }}-${{ matrix.php-version }}-composer-${{ hashFiles('composer.json') }}

@@ -13,9 +13,21 @@ final class KafkaTransportFactory implements TransportFactoryInterface
 {
     private const string PROTOCOL = 'kafka://';
 
+    /**
+     * @param array{
+     *     topicName: string,
+     *     groupId: string,
+     *     consumer: array<string, bool|int|string>,
+     *     producer: array<string, bool|int|string>,
+     *     flushRetries: int,
+     *     flushTimeout: int,
+     *     receiveTimeout: int,
+     *     commitAsync: boolean
+     * } $options
+     */
     public function createTransport(string $dsn, array $options, SerializerInterface $serializer): TransportInterface
     {
-        $dsn = \str_replace(self::PROTOCOL, '', $dsn);
+        $dsn = str_replace(self::PROTOCOL, '', $dsn);
 
         $options['consumer']['metadata.broker.list'] = $dsn;
         $options['producer']['metadata.broker.list'] = $dsn;
@@ -25,6 +37,6 @@ final class KafkaTransportFactory implements TransportFactoryInterface
 
     public function supports(string $dsn, array $options): bool
     {
-        return \str_starts_with($dsn, self::PROTOCOL);
+        return str_starts_with($dsn, self::PROTOCOL);
     }
 }
