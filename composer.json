@@ -1,7 +1,7 @@
 {
     "name": "sofyco/kafka-messenger-bundle",
     "type": "symfony-bundle",
-    "version": "3.0.0",
+    "version": "3.0.1",
     "description": "Symfony Kafka Messenger Bundle",
     "keywords": ["php", "symfony", "bundle", "kafka", "messenger"],
     "homepage": "https://github.com/sofyco/kafka-messenger-bundle",
@@ -20,7 +20,7 @@
     },
     "require-dev": {
         "phpstan/phpstan": "^2.1",
-        "phpunit/phpunit": "^12.4"
+        "phpunit/phpunit": "^13.1"
     },
     "autoload": {
         "psr-4": {

@@ -31,12 +31,12 @@ final class KafkaTransport implements TransportInterface, QueueReceiverInterface
     /**
      * @return Envelope[]
      */
-    public function getFromQueues(array $queueNames): iterable
+    public function getFromQueues(array $queueNames, int $fetchSize = 1): iterable
     {
         return $this->getReceiver()->get($queueNames);
     }
 
-    public function get(): iterable
+    public function get(int $fetchSize = 1): iterable
     {
         return $this->getReceiver()->get();
     }
